@@ -148,7 +148,7 @@ class AutoMCU(object):
                 print(f"Reading {count} samples from {csv}")
                 self._ems_raw.append(tmpdf.iloc[:,st:end].to_numpy().T)
             else:
-                print(f"Reading all samples of {csv}")
+                print(f"Reading {tmpdf.shape[1]-st} samples of {csv}")
                 self._ems_raw.append(tmpdf.iloc[:,st:].to_numpy().T)
 
         #Save the number of em classes 
@@ -612,11 +612,16 @@ class AutoMCU(object):
                     out_bands = 2*self.num_class+1
                     out_shape = (out_bands,inwind.height,inwind.width)
                     num_pix = inwind.height*inwind.width
+                    
+                    ##Prepare empty data for write
+                    ##############################
+                    out_dat = np.zeros((out_bands,num_pix),dtype=np.int16)
 
                     ##Read the data for this block
                     ##############################
                     val_dat = inref.read(window=inwind).reshape(
                             inref.count,-1)/input_scale
+
 
                     ##Filter for pixels with constant values across all 
                     ## bands (i.e. no data)
@@ -625,24 +630,26 @@ class AutoMCU(object):
                                       axis=sample_axis)
                     ##How many valid pixels in this block window
                     num_valid = isval.sum()
+                    if num_valid > 0:
+                        ##Drop the nodata pixels
+                        ########################
+                        val_dat = val_dat[:,isval]
+                        ##Shape (image_bands, num_valid)
 
-                    ##Drop the nodata pixels
-                    ########################
-                    val_dat = val_dat[:,isval]
-                    ##Shape (image_bands, num_valid)
+                        ###########################################################
+                        ##Unmix the valid data
+                        ##Returns an array of concatenated mean coefficients, stdev
+                        ## coefficients, and rmse
+                        ###########################################################
+                        results = self.unmix_array(val_dat.T).T
 
-                    ###########################################################
-                    ##Unmix the valid data
-                    ##Returns an array of concatenated mean coefficients, stdev
-                    ## coefficients, and rmse
-                    ###########################################################
-                    results = self.unmix_array(val_dat.T).T
+                        ##Write valid results to output array
+                        #####################################
+                        out_dat[:,isval] = results * self.outscale
 
                     ##########################
-                    ##Prepare and write output
+                    ##Write output
                     ##########################
-                    out_dat = np.zeros((out_bands,num_pix),dtype=np.int16)
-                    out_dat[:,isval] = results * self.outscale
                     oref.write(out_dat.reshape(out_shape),window=outwind)
 
 
