@@ -403,6 +403,10 @@ class AutoMCU(object):
         Y = self.make_unmixing_array(arr, self.match_c)
         num_samples = Y.shape[sample_axis]
         num_bands = Y.shape[band_axis]
+        if num_samples < 1:
+            return None
+            
+
         # Y is shape (num_samples, num_bands)
 
         ##Also get original refl spectrum for the selected bands
@@ -722,6 +726,7 @@ class AutoMCU(object):
                     ##Unmix the valid data
                     ##Returns an array of concatenated mean coefficients, stdev
                     ## coefficients, and rmse
+                    ## or None id val_dat is empty
                     ###########################################################
                     results = self.unmix_array(val_dat.T).T
 
@@ -729,5 +734,6 @@ class AutoMCU(object):
                     ##Prepare and write output
                     ##########################
                     out_dat = np.zeros((out_bands, num_pix), dtype=np.int16)
-                    out_dat[:, isval] = results * self.outscale
+                    if results is not None:
+                        out_dat[:, isval] = results * self.outscale
                     oref.write(out_dat.reshape(out_shape), window=outwind)
