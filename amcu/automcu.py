@@ -288,9 +288,18 @@ class AutoMCU(object):
             ##Interpolate
             brs = spectral.BandResampler(rawwl, wl, rawfwhm, fwhm)
             self._ems_interp.append(
-                np.concatenate([brs(v) for v in rawmat], axis=sample_axis)
-            )
-        return  ##Elahe is this correct?
+                np.concatenate([brs(v)[np.newaxis,:] for v in rawmat], \
+                               axis=sample_axis))
+            ##Check that interpolation did not result in nans in region bands
+            for bandlist in self.regdefs:
+                bands_with_nan = \
+                    np.array(bandlist)[np.any(~np.isfinite(
+                                    self._ems_interp[-1][:,bandlist],
+                                    ),axis=sample_axis)]
+                if len(bands_with_nan) > 0:
+                    raise RuntimeError("Interpolator produced nans for bands: "+\
+                                       f"{bands_with_nan} - check overlap")
+        return
 
     def average_interpolated_ems(self):
         if not self._ems_interp:
