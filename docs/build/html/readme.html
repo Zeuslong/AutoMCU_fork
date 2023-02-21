@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Readme &mdash; AutoMCU 0.0 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+      <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="test_amcu module" href="test_amcu.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> AutoMCU
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="modules.html">amcu</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Readme</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#scope">Scope</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#required-arguments-inputs">Required Arguments/inputs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#optional-arguments-inputs">Optional Arguments/inputs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#use-amcu-as-a-python-package">Use amcu as a python package</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">AutoMCU</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">Readme</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/readme.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="readme">
+<h1>Readme<a class="headerlink" href="#readme" title="Permalink to this heading"></a></h1>
+<p>Python implementation of AutoMCU spectral unmixing algorithm:</p>
+<p>Asner, G. P., and K. B. Heidebrecht. 2003. Imaging spectroscopy for desertification studies: Comparing AVIRIS and EO-1 Hyperion in Argentina drylands. IEEE transactions on geoscience and remote sensing: a publication of the IEEE Geoscience and Remote Sensing Society 41:1283–1296.
+Auomated Monte-Carlo Unmixing (AutoMCU) is an unmixing approach, the algorithm was written in C++ language and has translated to Python by
+Nick Vaughn in 2023.</p>
+<section id="scope">
+<h2>Scope<a class="headerlink" href="#scope" title="Permalink to this heading"></a></h2>
+<p>AutoMCU: Quantifying fractional coverage in image pixels. Given n bundles of endmember spectra, randomly select groupings
+of bundles and unmix the image spectrum.  After repeating over iterations and determine the mean endmember fraction and its std dev for each image pixel.
+The mean endmember fraction is the final unmixing result.  The std dev is used to determine the confidence of the unmixing result.</p>
+<hr class="docutils" />
+<p>Monte Carlo Unmixing (MCU) spectral mixture analysis,
+is a method for estimating the fractional coverages of endmembers in a pixel.
+After installing the amcu package by <cite>pip install amcu</cite>, the command line to run the code for 3 end members of PV, NPV, BS:</p>
+<p><code class="docutils literal notranslate"><span class="pre">`</span>
+<span class="pre">python</span> <span class="pre">cli.py</span> <span class="pre">path_to_input_image</span> <span class="pre">--sum_to_one</span> <span class="pre">--wl_range</span> <span class="pre">&quot;650,800&quot;</span> <span class="pre">--wl_range</span> <span class="pre">&quot;2030,2300&quot;</span> <span class="pre">path_to_output_image.tif</span> <span class="pre">spectral_library_pv.csv</span> <span class="pre">spectral_library_npv.csv</span> <span class="pre">spectral_library_bs.csv</span> <span class="pre">--names</span> <span class="pre">&quot;PV,NPV,Bare&quot;</span>&#160; <span class="pre">--scale</span> <span class="pre">10000</span> <span class="pre">--nointerp</span> <span class="pre">--emfwhm</span> <span class="pre">--iterations</span> <span class="pre">50</span> <span class="pre">--num_blocks</span> <span class="pre">'0,10'</span> <span class="pre">-v</span>
+<span class="pre">`</span></code></p>
+<p>Each argument in the command line is described:</p>
+</section>
+<section id="required-arguments-inputs">
+<h2>Required Arguments/inputs<a class="headerlink" href="#required-arguments-inputs" title="Permalink to this heading"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">*</span></code> The input image is a 3D array of size (nbands, nrow, ncol). For Hyperspectral images from GAO nbands = 428.</p>
+<p><code class="docutils literal notranslate"><span class="pre">*</span></code> The output image is a 3D array of size (nbands, nrow, ncol). The number of bands for the output image is 7 bands, the first 3 are the endmember fractions based on the order they set
+in the command line. For instance for the above command line the first 3 bands are f(pv), f(npv), f(bs) respectively. The 3 following bands are std(pv), std(npv), std(bs), and the 7th band is the mean. Fractions are values 0-1.0
+scaled by 1000, set by –scale option.</p>
+<p><code class="docutils literal notranslate"><span class="pre">*</span></code> The spectral library files are csv files with  a header row and samples listed in columns, bands as rows, the first column is the wavelength and and if –emfwhm is specified, fwhm should be column 2. The spectral library files are used to interpolate the endmembers to the same wavelength as the input image.
+Spectral libraries should be in csv format, if option –nointerp is False.</p>
+<p><code class="docutils literal notranslate"><span class="pre">*</span></code> The names of the endmembers are used to name the output bands.</p>
+<p><code class="docutils literal notranslate"><span class="pre">*</span></code> Algorithm runs over 2 region of the wavelengths: red-edge bands and swir2 bands. with –wl_range theses range of wavelengths are specified by user. A 2-element list or tuple of floats, i.e.” (600.0,750), that will be used to identify the band ranges used for unmixing. Data from the bands specified by these wavelengths will be lumped into a single array for fitting. A minimum of one wl window must be specified. Both wl_range and band_range cannot be specified.</p>
+<p><code class="docutils literal notranslate"><span class="pre">*</span></code> The –iterations = 50 is the number of iterations to run the unmixing algorithm.</p>
+</section>
+<section id="optional-arguments-inputs">
+<h2>Optional Arguments/inputs<a class="headerlink" href="#optional-arguments-inputs" title="Permalink to this heading"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">*</span></code> The –num_blocks = ‘100,200’ is the row number to use for the unmixing algorithm, within that range of rows in the input image, if this option is not used the automcu will unmix all the rows in the image.
+The first number is the first row number of blocks to use, the second number is the end row number of blocks to use.</p>
+<p><code class="docutils literal notranslate"><span class="pre">*</span></code> The scale option is used to scale the output fractions to integers, the default is 1000.</p>
+<p><code class="docutils literal notranslate"><span class="pre">*</span></code> The nointerp option is used to turn off interpolation of the spectral library files to the input image wavelength. If this option is set to False, the spectral library files should be in csv format.</p>
+<p><code class="docutils literal notranslate"><span class="pre">*</span></code> The –emfwhm = False  is used to specify that the spectral library files have a fwhm column.</p>
+<p><code class="docutils literal notranslate"><span class="pre">*</span></code> The -v option is used to turn on verbose mode, which prints out the progress of the unmixing algorithm.</p>
+<p><code class="docutils literal notranslate"><span class="pre">*</span></code> –sum_to_one option is to force the fractional endmembers equal to 1.</p>
+<p><code class="docutils literal notranslate"><span class="pre">*</span></code> Algorithm runs over 2 region of the wavelengths: red-edge bands and swir2 bands. with –wl_range theses range of wavelengths are specified by user.</p>
+<p>More information about other optional arguments can be found in cli.py or by typing –help after installing the package.</p>
+<hr class="docutils" />
+<a class="reference internal image-reference" href="_images/output.JPG"><img alt="output image" src="_images/output.JPG" style="width: 600px;" /></a>
+</section>
+<section id="use-amcu-as-a-python-package">
+<h2>Use amcu as a python package<a class="headerlink" href="#use-amcu-as-a-python-package" title="Permalink to this heading"></a></h2>
+<p>The automcu can be used as a package, by installing amcu.zip file, following steps can be used to do that:</p>
+<ol class="arabic simple">
+<li><p>make a zip file from the folder that contains the modules you want to be included in the package.</p></li>
+<li><p>open an terminal and change the directory to where the zip file is located.</p></li>
+<li><p>Install the paython package: <code class="docutils literal notranslate"><span class="pre">`pip</span> <span class="pre">install</span> <span class="pre">automcu.zip`</span></code></p></li>
+<li><p>Open a Python terminal and import the package <code class="docutils literal notranslate"><span class="pre">`from</span> <span class="pre">automcu.amcu</span> <span class="pre">import</span> <span class="pre">automcu`</span></code></p></li>
+<li><p>Description of the automcu package can be read using help command: <code class="docutils literal notranslate"><span class="pre">`help</span> <span class="pre">(automcu)`</span></code></p></li>
+<li><p>The automcu package can be used in a python script as follows:</p></li>
+</ol>
+<a class="reference internal image-reference" href="_images/install_packa.JPG"><img alt="Installing automcu package" src="_images/install_packa.JPG" style="width: 600px;" /></a>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="test_amcu.html" class="btn btn-neutral float-left" title="test_amcu module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Nick Vaughn.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

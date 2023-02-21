@@ -1,0 +1,7 @@
+Subcommand command
+***********************
+.. argparse::
+    :module: amcu.cli.main
+    :func: main
+    :prog: fancytool
+    :path: subcommand

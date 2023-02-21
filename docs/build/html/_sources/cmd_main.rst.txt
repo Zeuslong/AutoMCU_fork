@@ -1,0 +1,9 @@
+Fancytool command
+=================
+.. argparse::
+   :module: amcu.cli.main
+   :func: main
+   :prog: fancytool
+   subcommand
+      Here we add a reference to subcommand, to simplify navigation.
+      See :doc:`cmd_subcommand`

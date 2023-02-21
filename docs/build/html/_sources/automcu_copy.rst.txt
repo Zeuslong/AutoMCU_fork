@@ -1,0 +1,7 @@
+automcu\_copy module
+====================
+
+.. automodule:: automcu_copy
+   :members:
+   :undoc-members:
+   :show-inheritance:
