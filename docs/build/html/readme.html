@@ -85,9 +85,8 @@ Nick Vaughn in 2023.</p>
 of bundles and unmix the image spectrum.  After repeating over iterations and determine the mean endmember fraction and its std dev for each image pixel.
 The mean endmember fraction is the final unmixing result.  The std dev is used to determine the confidence of the unmixing result.</p>
 <hr class="docutils" />
-<p>Monte Carlo Unmixing (MCU) spectral mixture analysis,
-is a method for estimating the fractional coverages of endmembers in a pixel.
-After installing the amcu package by <cite>pip install amcu</cite>, the command line to run the code for 3 end members of PV, NPV, BS:</p>
+<p>Monte Carlo Unmixing (MCU) spectral mixture analysis, is a method for estimating the fractional coverages of endmembers in a pixel.
+After installing the amcu package by <cite>pip install amcu.zip</cite>, the command line to run the code for 3 end members of PV, NPV, BS:</p>
 <p><code class="docutils literal notranslate"><span class="pre">`</span>
 <span class="pre">python</span> <span class="pre">cli.py</span> <span class="pre">path_to_input_image</span> <span class="pre">--sum_to_one</span> <span class="pre">--wl_range</span> <span class="pre">&quot;650,800&quot;</span> <span class="pre">--wl_range</span> <span class="pre">&quot;2030,2300&quot;</span> <span class="pre">path_to_output_image.tif</span> <span class="pre">spectral_library_pv.csv</span> <span class="pre">spectral_library_npv.csv</span> <span class="pre">spectral_library_bs.csv</span> <span class="pre">--names</span> <span class="pre">&quot;PV,NPV,Bare&quot;</span>&#160; <span class="pre">--scale</span> <span class="pre">10000</span> <span class="pre">--nointerp</span> <span class="pre">--emfwhm</span> <span class="pre">--iterations</span> <span class="pre">50</span> <span class="pre">--num_blocks</span> <span class="pre">'0,10'</span> <span class="pre">-v</span>
 <span class="pre">`</span></code></p>
@@ -125,7 +124,7 @@ The first number is the first row number of blocks to use, the second number is 
 <ol class="arabic simple">
 <li><p>make a zip file from the folder that contains the modules you want to be included in the package.</p></li>
 <li><p>open an terminal and change the directory to where the zip file is located.</p></li>
-<li><p>Install the paython package: <code class="docutils literal notranslate"><span class="pre">`pip</span> <span class="pre">install</span> <span class="pre">automcu.zip`</span></code></p></li>
+<li><p>Install the paython package: <code class="docutils literal notranslate"><span class="pre">`pip</span> <span class="pre">install</span> <span class="pre">amcu.zip`</span></code></p></li>
 <li><p>Open a Python terminal and import the package <code class="docutils literal notranslate"><span class="pre">`from</span> <span class="pre">automcu.amcu</span> <span class="pre">import</span> <span class="pre">automcu`</span></code></p></li>
 <li><p>Description of the automcu package can be read using help command: <code class="docutils literal notranslate"><span class="pre">`help</span> <span class="pre">(automcu)`</span></code></p></li>
 <li><p>The automcu package can be used in a python script as follows:</p></li>
@@ -144,7 +143,7 @@ The first number is the first row number of blocks to use, the second number is 
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2023, Nick Vaughn.</p>
+    <p>&#169; Copyright 2023, Nick Vaughn, Elahe Jamalinia.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

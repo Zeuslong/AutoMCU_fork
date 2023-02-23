@@ -19,8 +19,8 @@ sys.path.insert(0, os.path.abspath(os.path.join("..", "..", "amcu")))
 # -- Project information -----------------------------------------------------
 
 project = "AutoMCU"
-copyright = "2023, Nick Vaughn"
-author = "Nick Vaughn"
+copyright = "2023, Nick Vaughn, Elahe Jamalinia"
+author = "Nick Vaughn, Elahe Jamalinia"
 
 # The full version, including alpha/beta/rc tags
 release = "0.0"

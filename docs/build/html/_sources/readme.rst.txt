@@ -16,9 +16,8 @@ The mean endmember fraction is the final unmixing result.  The std dev is used t
 
 --------------------------
 
-Monte Carlo Unmixing (MCU) spectral mixture analysis, 
-is a method for estimating the fractional coverages of endmembers in a pixel.
-After installing the amcu package by `pip install amcu`, the command line to run the code for 3 end members of PV, NPV, BS:
+Monte Carlo Unmixing (MCU) spectral mixture analysis, is a method for estimating the fractional coverages of endmembers in a pixel.
+After installing the amcu package by `pip install amcu.zip`, the command line to run the code for 3 end members of PV, NPV, BS:
 
 ```
 python cli.py path_to_input_image --sum_to_one --wl_range "650,800" --wl_range "2030,2300" path_to_output_image.tif spectral_library_pv.csv spectral_library_npv.csv spectral_library_bs.csv --names "PV,NPV,Bare"  --scale 10000 --nointerp --emfwhm --iterations 50 --num_blocks '0,10' -v 
@@ -78,7 +77,7 @@ The automcu can be used as a package, by installing amcu.zip file, following ste
 
 1. make a zip file from the folder that contains the modules you want to be included in the package.
 2. open an terminal and change the directory to where the zip file is located.
-3. Install the paython package: ```pip install automcu.zip```
+3. Install the paython package: ```pip install amcu.zip```
 4. Open a Python terminal and import the package ```from automcu.amcu import automcu```
 5. Description of the automcu package can be read using help command: ```help (automcu)```
 6. The automcu package can be used in a python script as follows:
