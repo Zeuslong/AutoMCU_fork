@@ -20,7 +20,7 @@ Monte Carlo Unmixing (MCU) spectral mixture analysis, is a method for estimating
 After installing the amcu package by `pip install amcu.zip`, the command line to run the code for 3 end members of PV, NPV, BS:
 
 ```
-python cli.py path_to_input_image --sum_to_one --wl_range "650,800" --wl_range "2030,2300" path_to_output_image.tif spectral_library_pv.csv spectral_library_npv.csv spectral_library_bs.csv --names "PV,NPV,Bare"  --scale 10000 --nointerp --emfwhm --iterations 50 --num_blocks '0,10' -v 
+python amcu_cli.py path_to_input_image --sum_to_one --wl_range "650,800" --wl_range "2030,2300" path_to_output_image.tif spectral_library_pv.csv spectral_library_npv.csv spectral_library_bs.csv --names "PV,NPV,Bare"  --scale 10000 --nointerp --emfwhm --iterations 50 --num_blocks '0,10' -v 
 ```
 
 Each argument in the command line is described:

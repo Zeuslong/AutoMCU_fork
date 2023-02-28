@@ -8,11 +8,12 @@ Asner, G. P., and K. B. Heidebrecht. 2003. Imaging spectroscopy for desertificat
 Auomated Monte-Carlo Unmixing (AutoMCU) is an unmixing approach, the algorithm was written in C++ language and has translated to Python by Nick Vaughn and Elahe Jamalinia in 2023.
 
 ![Alt text](docs\screenshots\output.JPG?raw=true "Unmix image on the left hand side and the input image on the right hand side.")
+
 In the both methods the positional arguments are:
- 
+
 ***************
 
-`python cli.py path_to_input_image --sum_to_one --wl_range "650,800" --wl_range "2030,2300" path_to_output_image.tif spectral_library_pv.csv spectral_library_npv.csv spectral_library_bs.csv --names "PV,NPV,Bare"  --scale 10000 --nointerp --emfwhm --iterations 50 --num_blocks '0,10' -v`
+`python amcu_cli.py path_to_input_image --sum_to_one --wl_range "650,800" --wl_range "2030,2300" path_to_output_image.tif spectral_library_pv.csv spectral_library_npv.csv spectral_library_bs.csv --names "PV,NPV,Bare"  --scale 10000 --nointerp --emfwhm --iterations 50 --num_blocks '0,10' -v`
 
 The last option of the above command line is optional. When the user wants to save the image in a different projection then that can be added in the command as well.
 
