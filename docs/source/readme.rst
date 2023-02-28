@@ -36,7 +36,7 @@ in the command line. For instance for the above command line the first 3 bands a
 scaled by 1000, set by --scale option.
 
 ``*`` The spectral library files are csv files with  a header row and samples listed in columns, bands as rows, the first column is the wavelength and and if --emfwhm is specified, fwhm should be column 2. The spectral library files are used to interpolate the endmembers to the same wavelength as the input image. 
-Spectral libraries should be in csv format, if option --nointerp is False. 
+Spectral libraries should be in csv format, if option --nointerp is False. The example spectral libraries that used to test this algorithm can be found in data folder for 3 end members: PV, NPV, BS.
 
 ``*`` The names of the endmembers are used to name the output bands.
     

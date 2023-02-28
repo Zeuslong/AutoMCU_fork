@@ -20,7 +20,7 @@ Monte Carlo Unmixing (MCU) spectral mixture analysis, is a method for estimating
 After installing the amcu package by `pip install amcu.zip`, the command line to run the code for 3 end members of PV, NPV, BS:
 
 ```
-python cli.py path_to_input_image --sum_to_one --wl_range "650,800" --wl_range "2030,2300" path_to_output_image.tif spectral_library_pv.csv spectral_library_npv.csv spectral_library_bs.csv --names "PV,NPV,Bare"  --scale 10000 --nointerp --emfwhm --iterations 50 --num_blocks '0,10' -v 
+python amcu_cli.py path_to_input_image --sum_to_one --wl_range "650,800" --wl_range "2030,2300" path_to_output_image.tif spectral_library_pv.csv spectral_library_npv.csv spectral_library_bs.csv --names "PV,NPV,Bare"  --scale 10000 --nointerp --emfwhm --iterations 50 --num_blocks '0,10' -v 
 ```
 
 Each argument in the command line is described:
@@ -36,7 +36,7 @@ in the command line. For instance for the above command line the first 3 bands a
 scaled by 1000, set by --scale option.
 
 ``*`` The spectral library files are csv files with  a header row and samples listed in columns, bands as rows, the first column is the wavelength and and if --emfwhm is specified, fwhm should be column 2. The spectral library files are used to interpolate the endmembers to the same wavelength as the input image. 
-Spectral libraries should be in csv format, if option --nointerp is False. 
+Spectral libraries should be in csv format, if option --nointerp is False. The example spectral libraries that used to test this algorithm can be found in data folder for 3 end members: PV, NPV, BS.
 
 ``*`` The names of the endmembers are used to name the output bands.
     

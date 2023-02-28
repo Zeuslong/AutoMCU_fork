@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>amcu_cli &mdash; AutoMCU 0.0 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> AutoMCU
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../modules.html">amcu</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../readme.html">Readme</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">AutoMCU</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Module code</a></li>
+      <li class="breadcrumb-item active">amcu_cli</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for amcu_cli</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">argparse</span>
+<span class="kn">from</span> <span class="nn">automcu</span> <span class="kn">import</span> <span class="n">AutoMCU</span>
+
+
+<div class="viewcode-block" id="main"><a class="viewcode-back" href="../amcu_cli.html#amcu_cli.main">[docs]</a><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Required and optional arguments to be included in the CLI, while running the code.</span>
+<span class="sd">    The arguments are defined in the main function. The arguments are parsed in the __main__.py file, or used in the run function in the automcu.py file.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;Run AutoMCU on an image&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--verbose&quot;</span><span class="p">,</span> <span class="s2">&quot;-v&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Verbose output&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s2">&quot;--overwrite&quot;</span><span class="p">,</span>
+        <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Force overwrite of existing output file&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s2">&quot;--config&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;-c&quot;</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Get settings from JSON-formatted config file,&quot;</span>
+        <span class="s2">&quot; instead of needing to specify command line args&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s2">&quot;--input_hdr&quot;</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Specify name of input ENVI hdr in case it is not&quot;</span>
+        <span class="s2">&quot; the standard path.hdr or splitext(path).hdr&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s2">&quot;--wl_range&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;-w&quot;</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="p">[],</span>
+        <span class="n">action</span><span class="o">=</span><span class="s2">&quot;append&quot;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;A 2-element list or tuple of floats, i.e.&quot;</span>
+        <span class="s2">&quot; (600.0,750), that will be used to identify&quot;</span>
+        <span class="s2">&quot; the band ranges used for unmixing.&quot;</span>
+        <span class="s2">&quot; Data from the bands specified by&quot;</span>
+        <span class="s2">&quot; these wavelengths will be lumped into a single&quot;</span>
+        <span class="s2">&quot; array for fitting. A minimum of one wl window&quot;</span>
+        <span class="s2">&quot; must be specified. Both wl_range and band_range&quot;</span>
+        <span class="s2">&quot; cannot be specified&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s2">&quot;--band_range&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;-b&quot;</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="p">[],</span>
+        <span class="n">action</span><span class="o">=</span><span class="s2">&quot;append&quot;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;A 2-element list or tuple of integers, i.e.&quot;</span>
+        <span class="s2">&quot; (65,72), that will be used to identify&quot;</span>
+        <span class="s2">&quot; the band ranges used for unmixing.&quot;</span>
+        <span class="s2">&quot; Band numbers are 0-based, so first band is 0.&quot;</span>
+        <span class="s2">&quot; Data from the bands specified by&quot;</span>
+        <span class="s2">&quot; these windows will be lumped into a single&quot;</span>
+        <span class="s2">&quot; array for fitting. A minimum of one band window&quot;</span>
+        <span class="s2">&quot; must be specified. Both wl_range and band_range&quot;</span>
+        <span class="s2">&quot; cannot be specified&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s2">&quot;--notie&quot;</span><span class="p">,</span>
+        <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;tied&quot;</span><span class="p">,</span>
+        <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_false&quot;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Reflectance spectra from each band range are&quot;</span>
+        <span class="s2">&quot; subtracted from the first window value to&quot;</span>
+        <span class="s2">&quot; help relieve brightness issues. (First value&quot;</span>
+        <span class="s2">&quot; in unmixing array becomes 0.0 for each&quot;</span>
+        <span class="s2">&quot; window&#39;s start). By default this is on. Use this&quot;</span>
+        <span class="s2">&quot; flag to disable.&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s2">&quot;--divide&quot;</span><span class="p">,</span>
+        <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Reflectance spectra from each band range are&quot;</span>
+        <span class="s2">&quot; divided by the first window value to&quot;</span>
+        <span class="s2">&quot; help relieve brightness issues. (First value&quot;</span>
+        <span class="s2">&quot; in unmixing array becomes 1.0 for each&quot;</span>
+        <span class="s2">&quot; window&#39;s start). By default this is off.&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s2">&quot;--shade&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Add an endmember for shade&quot;</span>
+    <span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s2">&quot;--sum_to_one&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;-1&quot;</span><span class="p">,</span>
+        <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Add an element with value 1.0 to the end of the&quot;</span>
+        <span class="s2">&quot; unmixing array and the input refl to help&quot;</span>
+        <span class="s2">&quot; coerce sums of the endmember fractions to be&quot;</span>
+        <span class="s2">&quot; near 1.0.&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s2">&quot;--iterations&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;--count&quot;</span><span class="p">,</span>
+        <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;How many MC runs to do for each pixel. &quot;</span> <span class="s2">&quot; Default 30&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="c1"># parser.add_argument(</span>
+    <span class="c1">#     &quot;--num_blocks&quot;,</span>
+    <span class="c1">#     type=int,</span>
+    <span class="c1">#     default=0,</span>
+    <span class="c1">#     help=&quot;How many blocks to unmix. &quot; &quot; Default all&quot;, ##Elahe changed</span>
+    <span class="c1"># )</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s2">&quot;--num_blocks&quot;</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="p">[],</span>
+        <span class="n">action</span><span class="o">=</span><span class="s2">&quot;append&quot;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;How many blocks to unmix. &quot;</span>
+        <span class="s2">&quot; Default all&quot;</span>
+        <span class="s2">&quot;A 2-element list or tuple of int, i.e.&quot;</span>
+        <span class="s2">&quot; (100,200), that will be used to identify&quot;</span>
+        <span class="s2">&quot; the blocks ranges used for unmixing.&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="c1">##define a argument having a range for a parameter --num_blocks</span>
+
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s2">&quot;--outscale&quot;</span><span class="p">,</span>
+        <span class="nb">type</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Scale value applied to unmixing results to make&quot;</span>
+        <span class="s2">&quot; them fit into data type specified for output.&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s2">&quot;--nodata&quot;</span><span class="p">,</span>
+        <span class="nb">type</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Output no data value written into metadata. If&quot;</span>
+        <span class="s2">&quot; default None, missing data in output will be 0,&quot;</span>
+        <span class="s2">&quot; but this will not be recorded in metadata.&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s2">&quot;--scale&quot;</span><span class="p">,</span>
+        <span class="nb">type</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Apply this scale to input data to get&quot;</span> <span class="s2">&quot; reflectance scaled from 0 to 1&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s2">&quot;--dtype&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;--of&quot;</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="s2">&quot;int16&quot;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Rasterio-usable specification of output map&quot;</span> <span class="s2">&quot; data type.&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s2">&quot;--otype&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;--ot&quot;</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="s2">&quot;GTiff&quot;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;GDAL shortname for output data format.&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s2">&quot;--co&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;-o&quot;</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="p">[],</span>
+        <span class="n">action</span><span class="o">=</span><span class="s2">&quot;append&quot;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;GDAL data format writing options.&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s2">&quot;--emfwhm&quot;</span><span class="p">,</span>
+        <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Assume second column of em csvs are fwhm values.&quot;</span>
+        <span class="s2">&quot; By default, average inter-band spacing is used&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s2">&quot;--nointerp&quot;</span><span class="p">,</span>
+        <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Assume em csvs have same count and wavelengths&quot;</span>
+        <span class="s2">&quot; as input reflectance data (will be checked)&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s2">&quot;--match_c&quot;</span><span class="p">,</span>
+        <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Recreate a bug in original C code that shifted&quot;</span>
+        <span class="s2">&quot; input reflectance data by one index/band&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s2">&quot;--names&quot;</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="p">[],</span>
+        <span class="n">action</span><span class="o">=</span><span class="s2">&quot;append&quot;</span><span class="p">,</span>
+        <span class="n">metavar</span><span class="o">=</span><span class="s2">&quot;STR[,STR]&quot;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Supply names for the classes defined by the&quot;</span>
+        <span class="s2">&quot; given CSV files. Can be specified multiple&quot;</span>
+        <span class="s2">&quot; times or using comma separated values&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;input&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;ENVI-formatted reflectance image&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;output&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;AutoMCU result map filename&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s2">&quot;emlist&quot;</span><span class="p">,</span>
+        <span class="n">nargs</span><span class="o">=</span><span class="s2">&quot;+&quot;</span><span class="p">,</span>
+        <span class="n">metavar</span><span class="o">=</span><span class="s2">&quot;CSV&lt;:INT&gt;&quot;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;CSV file with list of samples for a given&quot;</span>
+        <span class="s2">&quot; endmember class. CSV should should be arranged&quot;</span>
+        <span class="s2">&quot; such that samples are columns, and bands are&quot;</span>
+        <span class="s2">&quot; rows, with the first column containing the band&quot;</span>
+        <span class="s2">&quot; center wavelengths in nanometers. At least one&quot;</span>
+        <span class="s2">&quot; class must be specified. If a : and integer n&quot;</span>
+        <span class="s2">&quot; immediately follow the filename, then only the&quot;</span>
+        <span class="s2">&quot; first n samples will be read&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">verbose</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Args:&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">vars</span><span class="p">(</span><span class="n">args</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">k</span><span class="si">:</span><span class="s2">12s</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1">##Check that we have ems</span>
+    <span class="n">em_csvs</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">em_counts</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">st</span> <span class="ow">in</span> <span class="n">args</span><span class="o">.</span><span class="n">emlist</span><span class="p">:</span>
+        <span class="n">parts</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">parts</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">em_csvs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">parts</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">parts</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">em_counts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">parts</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">em_counts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">em_csvs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">parts</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="n">em_counts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="n">em_names</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">names</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">args</span><span class="o">.</span><span class="n">names</span><span class="p">:</span>
+            <span class="n">parts</span> <span class="o">=</span> <span class="n">n</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)</span>
+            <span class="n">em_names</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">parts</span><span class="p">)</span>
+
+    <span class="c1">###########################</span>
+    <span class="c1">##Process band or wl ranges</span>
+    <span class="c1">###########################</span>
+    <span class="c1">##Check that we have band or wavelength windows</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">band_range</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">wl_range</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;Can&#39;t mix wl_range and band_range entries&quot;</span><span class="p">)</span>
+
+    <span class="c1">##Convert to floats or ints</span>
+    <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">band_range</span><span class="p">:</span>
+        <span class="n">band_ranges</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">wl_ranges</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">for</span> <span class="n">bstr</span> <span class="ow">in</span> <span class="n">args</span><span class="o">.</span><span class="n">band_range</span><span class="p">:</span>
+            <span class="n">nobrackets</span> <span class="o">=</span> <span class="n">bstr</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s2">&quot;[]()</span><span class="si">{}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">parts</span> <span class="o">=</span> <span class="n">nobrackets</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">,</span> <span class="n">maxsplit</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">parts</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+                    <span class="s2">&quot;Could not convert band range to integers:&quot;</span> <span class="sa">f</span><span class="s2">&quot; </span><span class="si">{</span><span class="n">bstr</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="p">)</span>
+            <span class="n">band_ranges</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="nb">int</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">parts</span><span class="p">])</span>
+
+    <span class="k">elif</span> <span class="n">args</span><span class="o">.</span><span class="n">wl_range</span><span class="p">:</span>
+        <span class="n">band_ranges</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">wl_ranges</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">wstr</span> <span class="ow">in</span> <span class="n">args</span><span class="o">.</span><span class="n">wl_range</span><span class="p">:</span>
+            <span class="n">nobrackets</span> <span class="o">=</span> <span class="n">wstr</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s2">&quot;[]()</span><span class="si">{}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">parts</span> <span class="o">=</span> <span class="n">nobrackets</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">,</span> <span class="n">maxsplit</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">parts</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;Could not convert wl range to integers:&quot;</span> <span class="sa">f</span><span class="s2">&quot; </span><span class="si">{</span><span class="n">wstr</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">wl_ranges</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="nb">float</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">parts</span><span class="p">])</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+            <span class="s2">&quot;Band or wavelength ranges must be specified with&quot;</span>
+            <span class="s2">&quot;either --wl_range or --band_range&quot;</span>
+        <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">num_blocks</span><span class="p">:</span>
+        <span class="n">nblocks</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">nstr</span> <span class="ow">in</span> <span class="n">args</span><span class="o">.</span><span class="n">num_blocks</span><span class="p">:</span>
+            <span class="n">nobrackets</span> <span class="o">=</span> <span class="n">nstr</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s2">&quot;[]()</span><span class="si">{}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">parts</span> <span class="o">=</span> <span class="n">nobrackets</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">,</span> <span class="n">maxsplit</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">parts</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+                    <span class="s2">&quot;Could not convert number of blocks to integers:&quot;</span> <span class="sa">f</span><span class="s2">&quot; </span><span class="si">{</span><span class="n">nstr</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="p">)</span>
+            <span class="n">nblocks</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="nb">int</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">parts</span><span class="p">])</span>
+    <span class="c1">##As a failsafe to prevent writing over one of the input files if command</span>
+    <span class="c1">## line argument order is mixed up, don&#39;t write output if the file exists</span>
+    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">output</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="ow">not</span> <span class="n">args</span><span class="o">.</span><span class="n">overwrite</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;File </span><span class="si">{</span><span class="n">args</span><span class="o">.</span><span class="n">output</span><span class="si">}</span><span class="s2"> already exists. Check args&quot;</span>
+            <span class="s2">&quot;with -v or use --overwrite if this is intentional&quot;</span>
+        <span class="p">)</span>
+
+    <span class="c1">#############################</span>
+    <span class="c1">##Create the AutoMCU instance</span>
+    <span class="c1">#############################</span>
+    <span class="n">amcu</span> <span class="o">=</span> <span class="n">AutoMCU</span><span class="p">(</span>
+        <span class="n">em_csvs</span><span class="p">,</span>
+        <span class="n">em_counts</span><span class="p">,</span>
+        <span class="n">em_names</span><span class="o">=</span><span class="n">em_names</span><span class="p">,</span>
+        <span class="n">band_ranges</span><span class="o">=</span><span class="n">band_ranges</span><span class="p">,</span>
+        <span class="n">wl_ranges</span><span class="o">=</span><span class="n">wl_ranges</span><span class="p">,</span>
+        <span class="n">tied</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">tied</span><span class="p">,</span>
+        <span class="n">divide</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">divide</span><span class="p">,</span>
+        <span class="n">shade</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">shade</span><span class="p">,</span>
+        <span class="n">sum_to_one</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">sum_to_one</span><span class="p">,</span>
+        <span class="n">iterations</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">iterations</span><span class="p">,</span>
+        <span class="n">outscale</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">outscale</span><span class="p">,</span>
+        <span class="n">nodata</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">nodata</span><span class="p">,</span>
+        <span class="n">dtype</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span>
+        <span class="n">otype</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">otype</span><span class="p">,</span>
+        <span class="n">co</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">co</span><span class="p">,</span>
+        <span class="n">emfwhm</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">emfwhm</span><span class="p">,</span>
+        <span class="n">nointerp</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">nointerp</span><span class="p">,</span>
+        <span class="n">match_c</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">match_c</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="c1">##########################</span>
+    <span class="c1">##Run AutoMCU on the image</span>
+    <span class="c1">##########################</span>
+    <span class="n">amcu</span><span class="o">.</span><span class="n">apply_image</span><span class="p">(</span>
+        <span class="n">args</span><span class="o">.</span><span class="n">input</span><span class="p">,</span>
+        <span class="n">args</span><span class="o">.</span><span class="n">scale</span><span class="p">,</span>
+        <span class="n">args</span><span class="o">.</span><span class="n">output</span><span class="p">,</span>
+        <span class="n">hdrpath</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">input_hdr</span><span class="p">,</span>
+        <span class="n">nblocks</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">num_blocks</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="k">return</span></div>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Nick Vaughn, Elahe Jamalinia.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

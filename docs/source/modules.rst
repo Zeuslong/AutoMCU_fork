@@ -4,6 +4,6 @@ amcu
 .. toctree::
    :maxdepth: 4
 
+   amcu_cli
    automcu
-   cli
    test_amcu

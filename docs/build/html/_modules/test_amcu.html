@@ -70,21 +70,18 @@
 <span class="kn">import</span> <span class="nn">pytest</span>
 
 
-<div class="viewcode-block" id="test_automcu"><a class="viewcode-back" href="../test_amcu.html#test_amcu.test_automcu">[docs]</a><span class="k">def</span> <span class="nf">test_automcu</span><span class="p">():</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    test_automcu is a test to run the code without bug and get sure that there&#39;s no bug in the main body of the code.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">amcu</span> <span class="o">=</span> <span class="n">AutoMCU</span><span class="p">()</span>
-    <span class="n">input_img</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\\</span><span class="s2">gdcs-stor.rc.asu.edu\gdcs-stor\CarbonMapper\AlgDevel\Agriculture\Florida_Apr2022\east_agriculture\GAO20220411t125900p0000&quot;</span>
-    <span class="n">output_path</span> <span class="o">=</span> <span class="s2">&quot;data\GAO20220411t125900p0000&quot;</span>
-    <span class="n">scale</span> <span class="o">=</span> <span class="mf">0.1</span>
+<span class="c1"># @pytest.fixture</span>
+<div class="viewcode-block" id="test_amcu"><a class="viewcode-back" href="../test_amcu.html#test_amcu.test_amcu">[docs]</a><span class="k">def</span> <span class="nf">test_amcu</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A test function to check the package using pytest, using assert the required input will be tested within that function&quot;&quot;&quot;</span>
 
-    <span class="n">amcu</span><span class="o">.</span><span class="n">apply_image</span><span class="p">(</span>
-        <span class="n">refl_path</span><span class="o">=</span><span class="n">input_img</span><span class="p">,</span>
-        <span class="n">input_scale</span><span class="o">=</span><span class="n">scale</span><span class="p">,</span>
-        <span class="n">output_path</span><span class="o">=</span><span class="n">output_path</span><span class="p">,</span>
-        <span class="n">hdrpath</span><span class="o">=</span><span class="n">input_img</span><span class="p">,</span>
-    <span class="p">)</span></div>
+    <span class="n">em_csvs</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;data/EM1.csv&quot;</span><span class="p">,</span> <span class="s2">&quot;data/EM2.csv&quot;</span><span class="p">]</span>
+    <span class="n">em_counts</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+    <span class="n">em_names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;EM1&quot;</span><span class="p">,</span> <span class="s2">&quot;EM2&quot;</span><span class="p">]</span>
+    <span class="n">band_ranges</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]]</span>
+    <span class="n">amcu</span> <span class="o">=</span> <span class="n">AutoMCU</span><span class="p">()</span>
+
+    <span class="n">output</span> <span class="o">=</span> <span class="n">amcu</span><span class="o">.</span><span class="n">apply_image</span><span class="p">(</span><span class="s2">&quot;../data/input_img&quot;</span><span class="p">,</span> <span class="s2">&quot;../data/output_img.tif&quot;</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">output</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span></div>
 </pre></div>
 
            </div>
@@ -94,7 +91,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2023, Nick Vaughn.</p>
+    <p>&#169; Copyright 2023, Nick Vaughn, Elahe Jamalinia.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

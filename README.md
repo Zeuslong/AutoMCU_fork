@@ -7,7 +7,7 @@ Python implementation of AutoMCU spectral unmixing algorithm:
 Asner, G. P., and K. B. Heidebrecht. 2003. Imaging spectroscopy for desertification studies: Comparing AVIRIS and EO-1 Hyperion in Argentina drylands. IEEE transactions on geoscience and remote sensing: a publication of the IEEE Geoscience and Remote Sensing Society 41:1283–1296.
 Auomated Monte-Carlo Unmixing (AutoMCU) is an unmixing approach, the algorithm was written in C++ language and has translated to Python by Nick Vaughn and Elahe Jamalinia in 2023.
 
-![Alt text](docs\screenshots\output.JPG?raw=true "Unmix image on the left hand side and the input image on the right hand side.")
+![Alt text](docs\screenshots\output.jpg?raw=true "Unmix image on the left hand side and the input image on the right hand side.")
 
 In the both methods the positional arguments are:
 
@@ -29,7 +29,7 @@ Each argument in the command line is described:
 scaled by 1000, set by --scale option.
 
 * The spectral library files are csv files with  a header row and samples listed in columns, bands as rows, the first column is the wavelength and and if --emfwhm is specified, fwhm should be column 2. The spectral library files are used to interpolate the endmembers to the same wavelength as the input image.
-Spectral libraries should be in csv format.
+Spectral libraries should be in csv format. The example spectral libraries that used to test this algorithm can be found in data folder for 3 end members: PV, NPV, BS.
 
 * The names of the endmembers are used to name the output bands.
 
@@ -67,3 +67,7 @@ The automcu can be used as a package, by installing amcu.zip file, following ste
 5. Description of the automcu package can be read using help command: `help (automcu)`
 
 ![Alt text](docs/screenshots/install_packa.JPG?raw=true "Install amcu package and use help.")
+
+
+
+

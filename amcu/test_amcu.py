@@ -4,6 +4,8 @@ import pytest
 
 # @pytest.fixture
 def test_amcu():
+    """A test function to check the package using pytest, using assert the required input will be tested within that function"""
+
     em_csvs = ["data/EM1.csv", "data/EM2.csv"]
     em_counts = [2]
     em_names = ["EM1", "EM2"]
