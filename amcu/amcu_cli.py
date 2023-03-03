@@ -96,12 +96,7 @@ def main():
         default=30,
         help="How many MC runs to do for each pixel. " " Default 30",
     )
-    # parser.add_argument(
-    #     "--num_blocks",
-    #     type=int,
-    #     default=0,
-    #     help="How many blocks to unmix. " " Default all", ##Elahe changed
-    # )
+
     parser.add_argument(
         "--num_blocks",
         default=[],
