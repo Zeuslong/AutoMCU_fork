@@ -1,3 +1,38 @@
+#!/usr/bin/env python
+#  Copyright 2023 
+#  Center for Global Discovery and Conservation Science, Arizona State University
+#
+#  Licensed under the Apache License, Version 2.0 (the "License");
+#  you may not use this file except in compliance with the License.
+#  You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+#  Unless required by applicable law or agreed to in writing, software
+#  distributed under the License is distributed on an "AS IS" BASIS,
+#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#  See the License for the specific language governing permissions and
+#  limitations under the License.
+#
+#
+# Original authors:
+#   Kathy Heidebrecht
+#   Greg Asner, gasner AT asu.edu
+#
+# Translated to Python by:
+#   Nicholas Vaughn, nickvaughn AT asu.edu
+#   Elahe Jamalinia, ejamalin AT asu.edu
+#
+# AutoMCU
+# Code is provided to Planet, PBC as part of the CarbonMapper Land and Ocean
+# Program. This methodology was developed in this current form by former and
+# current members of the Asner Lab at GDCS. Please give proper attribution
+# when using this code for publication:
+#
+# Asner, G. P., and K. B. Heidebrecht. 2002. Spectral unmixing of vegetation, 
+# soil and dry carbon cover in arid regions: Comparing multispectral and
+# hyperspectral observations. IJRS 23:3939–3958.
+
 import os
 import argparse
 from automcu import AutoMCU
