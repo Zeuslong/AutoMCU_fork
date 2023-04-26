@@ -5,11 +5,9 @@
 Python implementation of AutoMCU spectral unmixing algorithm:
 
 Asner, G. P., and K. B. Heidebrecht. 2003. Imaging spectroscopy for desertification studies: Comparing AVIRIS and EO-1 Hyperion in Argentina drylands. IEEE transactions on geoscience and remote sensing: a publication of the IEEE Geoscience and Remote Sensing Society 41:1283–1296.
-Auomated Monte-Carlo Unmixing (AutoMCU) is an unmixing approach, the algorithm was written in C++ language and has translated to Python by Nick Vaughn and Elahe Jamalinia in 2023.
+Automated Monte-Carlo Unmixing (AutoMCU) is an unmixing approach, the algorithm was written in C++ language and has translated to Python by Nick Vaughn and Elahe Jamalinia in 2023.
 
-![Alt text](docs\screenshots\output.jpg?raw=true "Unmix image on the left hand side and the input image on the right hand side.")
-
-In the both methods the positional arguments are:
+This code can be used by writing the command line in the terminal or installing the automcu package (explained below). In the both methods the positional arguments are:
 
 ***************
 
@@ -67,7 +65,3 @@ The automcu can be used as a package, by installing amcu.zip file, following ste
 5. Description of the automcu package can be read using help command: `help (automcu)`
 
 ![Alt text](docs/screenshots/install_packa.JPG?raw=true "Install amcu package and use help.")
-
-
-
-
