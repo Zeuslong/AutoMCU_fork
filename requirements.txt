@@ -208,7 +208,6 @@ websocket-client==1.3.3
 whitebox==2.1.2
 whiteboxgui==0.7.0
 widgetsnbextension==3.6.0
-xarray==2022.3.0
 xyzservices==2022.4.0
 yarg==0.1.9
 zipp==3.8.0
