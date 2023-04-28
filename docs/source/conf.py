@@ -46,7 +46,7 @@ extensions = [
 ]
 ##use argparse in sphinx
 
-extensions += ["sphinxarg.ext"]
+#extensions += ["sphinxarg.ext"]
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ["_templates"]
 
