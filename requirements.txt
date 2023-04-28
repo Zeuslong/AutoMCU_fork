@@ -172,7 +172,6 @@ soupsieve==2.3.2.post1
 spectral==0.22.4
 sphinx-argparse==0.4.0
 sphinx-comments==0.0.3
-sphinx-rtd-theme==1.1.1
 sphinx_argparse_cli==1.11.0
 sphinxcontrib-applehelp==1.0.2
 sphinxcontrib-autoprogram==0.1.7
