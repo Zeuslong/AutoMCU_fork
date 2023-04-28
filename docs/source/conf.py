@@ -49,7 +49,6 @@ extensions = [
     "sphinx.ext.doctest",
     "sphinx.ext.autosectionlabel",
     "sphinx.ext.extlinks",
-    "sphinx_comments",
 
 ]
 ##use argparse in sphinx
