@@ -1,4 +1,4 @@
-﻿affine==2.3.1
+affine==2.3.1
 alabaster==0.7.12
 anyio==3.6.1
 argon2-cffi==21.3.0
