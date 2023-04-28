@@ -35,7 +35,6 @@ extensions = [
     "sphinx.ext.napoleon",
     "sphinx.ext.autodoc",
     "sphinx.ext.viewcode",
-    "sphinxcontrib.autoprogram",
     "sphinx_argparse_cli",
     "sphinx.ext.autosummary",
     "sphinx.ext.intersphinx",
