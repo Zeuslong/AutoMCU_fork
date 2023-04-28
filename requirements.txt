@@ -72,7 +72,6 @@ iniconfig==1.1.1
 ipyevents==2.0.1
 ipyfilechooser==0.6.0
 ipykernel==6.13.0
-ipyleaflet==0.16.0
 ipython==8.3.0
 ipython-genutils==0.2.0
 ipytree==0.2.1
