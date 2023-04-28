@@ -15,7 +15,7 @@ setuptools.setup(
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ],
-    install_requires=["rasterio", "pydantic", "pytest", "spectral"],
+    install_requires=["rasterio", "pydantic", "pytest", "spectral", "numpy", "scipy"],
     packages=setuptools.find_packages(),
     python_requires=">=3.6",
     entry_points={"console_scripts": ["amcu = amcu.cli:main"]},
