@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-#  Copyright 2023 
+#  Copyright 2023
 #  Center for Global Discovery and Conservation Science, Arizona State University
 #
 #  Licensed under the Apache License, Version 2.0 (the "License");
@@ -29,7 +29,7 @@
 # current members of the Asner Lab at GDCS. Please give proper attribution
 # when using this code for publication:
 #
-# Asner, G. P., and K. B. Heidebrecht. 2002. Spectral unmixing of vegetation, 
+# Asner, G. P., and K. B. Heidebrecht. 2002. Spectral unmixing of vegetation,
 # soil and dry carbon cover in arid regions: Comparing multispectral and
 # hyperspectral observations. IJRS 23:3939–3958.
 
@@ -43,13 +43,23 @@ def main():
     Required and optional arguments to be included in the CLI, while running the code.
     The arguments are defined in the main function. The arguments are parsed in the __main__.py file, or used in the run function in the automcu.py file.
     """
+    # 创建一个ArgumentParser对象，用于解析命令行参数
     parser = argparse.ArgumentParser(description="Run AutoMCU on an image")
+
+    # 添加一个命令行参数，用于控制是否输出详细信息
+    # 添加一个参数，用于输出详细的信息
     parser.add_argument("--verbose", "-v", action="store_true", help="Verbose output")
+
+
+    # 添加一个参数，用于强制覆盖已存在的输出文件
     parser.add_argument(
         "--overwrite",
         action="store_true",
         help="Force overwrite of existing output file",
     )
+
+
+    # 添加一个参数，用于从JSON格式的配置文件中获取设置，而不是指定命令行参数
     parser.add_argument(
         "--config",
         "-c",
@@ -57,12 +67,17 @@ def main():
         help="Get settings from JSON-formatted config file,"
         " instead of needing to specify command line args",
     )
+
+    # 添加一个参数，用于指定输入ENVI hdr的名称，如果它不是标准路径.hdr或splitext(path).hdr
     parser.add_argument(
         "--input_hdr",
         default=None,
         help="Specify name of input ENVI hdr in case it is not"
         " the standard path.hdr or splitext(path).hdr",
     )
+
+    # 添加一个参数，用于指定用于解混的波段范围，该范围由两个浮点数组成，例如(600.0,750)，这些波段的
+    # 数据将被合并成一个数组进行拟合。必须指定至少一个wl窗口。wl_range和band_range不能同时指定
     parser.add_argument(
         "--wl_range",
         "-w",
@@ -77,6 +92,9 @@ def main():
         " must be specified. Both wl_range and band_range"
         " cannot be specified",
     )
+
+    # 添加一个参数，用于指定用于解混的波段范围，该范围由两个整数组成，例如(65,72)，这些波段的
+    # 数据将被合并成一个数组进行拟合。必须指定至少一个波段窗口。wl_range和band_range不能同时指定
     parser.add_argument(
         "--band_range",
         "-b",
@@ -92,6 +110,9 @@ def main():
         " must be specified. Both wl_range and band_range"
         " cannot be specified",
     )
+
+    # 添加一个参数，用于从每个波段范围的反射光谱中减去第一个窗口值，以帮助缓解亮度问题。
+    # （解混数组中的第一个值对于每个窗口的起始值变为0.0）。默认情况下这是开启的。使用此标志来禁用。
     parser.add_argument(
         "--notie",
         dest="tied",
@@ -103,6 +124,9 @@ def main():
         " window's start). By default this is on. Use this"
         " flag to disable.",
     )
+
+    # 添加一个参数，用于将每个波段范围的反射光谱除以第一个窗口值，以帮助缓解亮度问题。
+    # （解混数组中的第一个值对于每个窗口的起始值变为1.0）。默认情况下这是关闭的。
     parser.add_argument(
         "--divide",
         action="store_true",
@@ -112,9 +136,14 @@ def main():
         " in unmixing array becomes 1.0 for each"
         " window's start). By default this is off.",
     )
+
+    # 添加一个参数，用于添加一个阴影的成分
     parser.add_argument(
         "--shade", action="store_true", help="Add an endmember for shade"
     )
+
+    # 添加一个参数，用于在解混数组的末尾添加一个值为1.0的元素，并帮助将成分分数的总和
+    # 接近1.0
     parser.add_argument(
         "--sum_to_one",
         "-1",
@@ -124,6 +153,8 @@ def main():
         " coerce sums of the endmember fractions to be"
         " near 1.0.",
     )
+
+    # 添加一个参数，用于指定每个像素的MC运行次数。默认为30
     parser.add_argument(
         "--iterations",
         "--count",
@@ -132,6 +163,10 @@ def main():
         help="How many MC runs to do for each pixel. " " Default 30",
     )
 
+    # 添加一个参数，用于指定要解混的块数。默认为所有
+    # 一个由两个整数组成的2元素列表或元组，例如(100,200)，用于标识用于解混的块范围
+
+    ##define a argument having a range for a parameter --num_blocks
     parser.add_argument(
         "--num_blocks",
         default=[],
@@ -142,8 +177,8 @@ def main():
         " (100,200), that will be used to identify"
         " the blocks ranges used for unmixing.",
     )
-    ##define a argument having a range for a parameter --num_blocks
 
+    # 添加一个参数，用于将解混结果缩放，以使其适应输出指定的数据类型
     parser.add_argument(
         "--outscale",
         type=float,
@@ -151,6 +186,9 @@ def main():
         help="Scale value applied to unmixing results to make"
         " them fit into data type specified for output.",
     )
+
+    # 添加一个参数，用于将无数据值写入元数据。如果默认为None，输出中的缺失数据将为0，
+    # 但这不会记录在元数据中
     parser.add_argument(
         "--nodata",
         type=float,
@@ -159,24 +197,32 @@ def main():
         " default None, missing data in output will be 0,"
         " but this will not be recorded in metadata.",
     )
+
+    # 添加参数，用于将输入数据乘以指定的比例，以获得0到1之间的反射率
     parser.add_argument(
         "--scale",
         type=float,
         default=1.0,
         help="Apply this scale to input data to get" " reflectance scaled from 0 to 1",
     )
+
+    # 添加参数，用于指定输出地图数据类型的Rasterio规范
     parser.add_argument(
         "--dtype",
         "--of",
         default="int16",
         help="Rasterio-usable specification of output map" " data type.",
     )
+
+    # 添加参数，用于指定输出数据格式的GDAL短名称
     parser.add_argument(
         "--otype",
         "--ot",
         default="GTiff",
         help="GDAL shortname for output data format.",
     )
+
+    # 添加参数，用于指定GDAL数据格式写入选项
     parser.add_argument(
         "--co",
         "-o",
@@ -184,24 +230,32 @@ def main():
         action="append",
         help="GDAL data format writing options.",
     )
+
+    # 添加参数，用于假设em csvs的第二列是fwhm值。默认情况下，使用平均波段间距
     parser.add_argument(
         "--emfwhm",
         action="store_true",
         help="Assume second column of em csvs are fwhm values."
         " By default, average inter-band spacing is used",
     )
+
+    # 添加参数，用于假设em csvs具有与输入反射率数据相同的计数和波长（将被检查）
     parser.add_argument(
         "--nointerp",
         action="store_true",
         help="Assume em csvs have same count and wavelengths"
         " as input reflectance data (will be checked)",
     )
+
+    # 添加参数，用于重新创建原始C代码中的一个错误，该错误将输入反射率数据移动了一个索引/波段
     parser.add_argument(
         "--match_c",
         action="store_true",
         help="Recreate a bug in original C code that shifted"
         " input reflectance data by one index/band",
     )
+
+    # 添加参数，用于为给定CSV文件定义的类提供名称。可以多次指定或使用逗号分隔的值
     parser.add_argument(
         "--names",
         default=[],
@@ -211,8 +265,15 @@ def main():
         " given CSV files. Can be specified multiple"
         " times or using comma separated values",
     )
+
+    # 添加参数，用于指定ENVI格式的反射率图像
     parser.add_argument("input", help="ENVI-formatted reflectance image")
+
+    # 添加参数，用于指定AutoMCU结果地图文件名
     parser.add_argument("output", help="AutoMCU result map filename")
+
+    # 添加参数，用于指定给定端成员类的样本列表的CSV文件。CSV应该按照样本是列，波段是行的方式排列，第一列包含波段中心波长（以纳米为单位）。
+    # 至少必须指定一个类。如果文件名后面紧跟着一个:和整数n，则只读取前n个样本
     parser.add_argument(
         "emlist",
         nargs="+",
@@ -226,13 +287,15 @@ def main():
         " immediately follow the filename, then only the"
         " first n samples will be read",
     )
+
+    # 解析命令行参数，检查命令行参数中是否包含verbose标志，如果包含，则打印出所有命令行参数及其对应的值
     args = parser.parse_args()
     if args.verbose:
         print("Args:")
         for k, v in vars(args).items():
             print(f"{k:12s}: {v}")
 
-    ##Check that we have ems
+
     em_csvs = []
     em_counts = []
     for st in args.emlist:
