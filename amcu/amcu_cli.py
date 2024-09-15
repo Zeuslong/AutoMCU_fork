@@ -295,10 +295,12 @@ def main():
         for k, v in vars(args).items():
             print(f"{k:12s}: {v}")
 
-
+    #解析一个名为 args.emlist 的列表，该列表包含了一些字符串，每个字符串可能包含一个冒号分隔的值。
+    # 代码的主要目的是从这些字符串中提取两个列表：em_csvs 和 em_counts
     em_csvs = []
     em_counts = []
     for st in args.emlist:
+        # 使用 strip() 方法去除字符串两端的空白字符，然后使用 split(":") 方法按照冒号分割字符串，得到一个列表 parts
         parts = st.strip().split(":")
         if len(parts) > 1:
             em_csvs.append(parts[0])
@@ -311,19 +313,27 @@ def main():
             em_counts.append(0)
 
     em_names = []
+    # 首先检查 args.names 是否存在
     if args.names:
+        # 如果 args.names 存在，遍历列表中的每个元素 n
         for n in args.names:
+            # 对每个元素 n 使用 strip() 方法去除字符串两端的空白字符，然后使用 split(",") 方法按照逗号分割字符串，得到一个子列表 parts
             parts = n.strip().split(",")
+            # 使用 extend() 方法将 parts 列表中的所有元素添加到 em_names 列表的末尾
             em_names.extend(parts)
 
     ###########################
     ##Process band or wl ranges
     ###########################
     ##Check that we have band or wavelength windows
+    # 检查两个参数 args.band_range 和 args.wl_range 是否同时被提供。如果这两个参数都包含了至少一个元素（即它们的长度都大于0），
+    # 那么代码将抛出一个 RuntimeError 异常
     if (len(args.band_range) > 0) and (len(args.wl_range) > 0):
         raise RuntimeError("Can't mix wl_range and band_range entries")
 
     ##Convert to floats or ints
+    # 处理程序的两个可选参数 args.band_range 和 args.wl_range，这两个参数分别代表不同的频率或波长范围。
+    # 代码根据这两个参数的存在情况，分别解析它们的内容，并将解析后的结果存储在 band_ranges 或 wl_ranges 列表中
     if args.band_range:
         band_ranges = []
         wl_ranges = None
